@@ -13,4 +13,5 @@ import "fmt"
 func main() {
 	target := 600851475143
 	//todo: the math
+	for target % nextPrime == 0
 }
