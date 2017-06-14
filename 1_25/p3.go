@@ -9,9 +9,19 @@ What is the largest prime factor of the number 600851475143 ?
 */
 
 import "fmt"
+import "eulertools"
+
+var factors = [...]int{}
 
 func main() {
-	target := 600851475143
-	//todo: the math
-	for target % nextPrime == 0
+	n := 600851475143
+	//for target % nextPrime == 0
+	nextCandidateFactor := 2
+	for {
+
+		//this prime is not a factor
+		nextCandidateFactor = eulertools.GetNextPrime(nextCandidateFactor)
+		fmt.Println(i)
+	}
+	fmt.Println(factors[len(factors)-1])
 }
