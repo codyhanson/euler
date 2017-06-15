@@ -9,10 +9,21 @@ Find the largest palindrome made from the product of two 3-digit numbers.
 */
 
 import "fmt"
+import "strconv"
+import "strings"
+
+func stringReverse(s string) string {
+	chars := strings.Split(s, "")
+	middle := len(chars) / 2
+	for i := 0; i < middle; i++ {
+		chars[i], chars[len(chars)-1-i] = chars[len(chars)-1-i], chars[i]
+	}
+	return strings.Join(chars, "")
+}
 
 func numberIsPalindrome(i int) bool {
-	//TODO
-	return false
+	iDigits := strconv.Itoa(i)
+	return iDigits == stringReverse(iDigits)
 }
 
 func main() {
@@ -28,4 +39,5 @@ func main() {
 		}
 	}
 	fmt.Println(largestPalindrome)
+
 }
