@@ -11,17 +11,27 @@ What is the largest prime factor of the number 600851475143 ?
 import "fmt"
 import "eulertools"
 
-var factors = [...]int{}
+// Thought: Could probably memoize getNextPrime, to avoide recomputation.
 
 func main() {
 	n := 600851475143
-	//for target % nextPrime == 0
+	//n := 13195
+	var factors []int
 	nextCandidateFactor := 2
-	for {
-
-		//this prime is not a factor
-		nextCandidateFactor = eulertools.GetNextPrime(nextCandidateFactor)
-		fmt.Println(i)
+	for !eulertools.IsPrime(n) {
+		for {
+			if n%nextCandidateFactor == 0 {
+				//we found a prime factor.
+				fmt.Println(nextCandidateFactor)
+				factors = append(factors, nextCandidateFactor)
+				n = n / nextCandidateFactor
+				break
+			} else {
+				//this prime is not the next factor
+				nextCandidateFactor = eulertools.GetNextPrime(nextCandidateFactor)
+			}
+		}
 	}
-	fmt.Println(factors[len(factors)-1])
+	//last factor is now n
+	fmt.Println(n)
 }
