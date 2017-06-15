@@ -15,6 +15,17 @@ Find the difference between the sum of the squares of the first one hundred natu
 
 import "fmt"
 
-funct main() {
+func main() {
 
+	sum := 0
+	sumOfSquares := 0
+
+	for i := 1; i <= 100; i++ {
+		sum += i
+		sumOfSquares += i * i
+	}
+
+	squareOfSum := sum * sum
+
+	fmt.Printf("%d - %d = %d\n", squareOfSum, sumOfSquares, squareOfSum-sumOfSquares)
 }
