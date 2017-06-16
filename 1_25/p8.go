@@ -64,14 +64,17 @@ func main() {
 	//slide a window of 13 digits across the slice, computing the product
 	for windowBegin := 0; windowBegin < len(nSlice)-14; windowBegin++ {
 		product := 1
-		for i := windowBegin; i < windowBegin+12; i++ {
+		for i := windowBegin; i < windowBegin+13; i++ {
 			fmt.Print(i)
-			product *= strconv.Atoi(nSlice[i])
+			factor, err := strconv.Atoi(nSlice[i])
+			if err != nil {
+				fmt.Println(err)
+			}
+			product *= factor
 		}
 		fmt.Print("\n")
 		if product > greatestProduct {
 			greatestProduct = product
-			fmt.Println(greatestProduct)
 		}
 	}
 	fmt.Println(greatestProduct)
