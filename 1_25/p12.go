@@ -28,7 +28,7 @@ func countDivisors(n int) int {
 	divCount := 2
 	i := 2
 
-	for i < n/2 {
+	for i <= n/2 {
 		if n%i == 0 {
 			//found a divisor
 			divCount++
@@ -38,9 +38,10 @@ func countDivisors(n int) int {
 	return divCount
 }
 
+// This works but is slow
 func main() {
 	nextTriangle := 3
-	nextAdd := 4
+	nextAdd := 3
 	curCount := 0
 	curMax := 0
 	for curCount < 500 {
