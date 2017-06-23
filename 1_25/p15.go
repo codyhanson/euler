@@ -10,61 +10,40 @@ How many such routes are there through a 20×20 grid?
 
 import (
 	"fmt"
+	"time"
 )
 
 var numPaths = 0
-var numRows = 20
-var numCols = 20
+var numRows = 1
+var numCols = 1
 
 func atTheEnd(row, col int) bool {
 	return row == numRows && col == numCols
 }
 
-func tryNextStep(row, col int, downOrRight string) {
-
-	//advance a step
-	if downOrRight == "d" {
-		row++
-	} else {
-		col++
-	}
-
+func tryNextStep(row, col int) {
 	if atTheEnd(row, col) {
 		//this path is done
 		numPaths++
 		return
 	}
-	if downOrRight == "d" {
-		if row == numRows && col < numCols {
-			//cant go down more. just try right.
-			tryNextStep(row, col, "r")
-		} else {
-			//try going down one more
-			tryNextStep(row, col, "d")
-			//also try going right, from here
-			if col < numCols {
-				tryNextStep(row, col, "r")
-			}
-		}
 
-	} else {
-		//going right
-		if col == numCols && row < numRows {
-			//cant go right more, just try down
-			tryNextStep(row, col, "d")
-		} else {
-			//go right one more
-			tryNextStep(row, col, "r")
-			//also try going down from here
-			if row < numRows {
-				tryNextStep(row, col, "d")
-			}
-		}
+	if row < numRows {
+		tryNextStep(row+1, col)
+	}
+	if col < numCols {
+		tryNextStep(row, col+1)
 	}
 }
 
 func main() {
-	tryNextStep(0, 0, "d")
-	//tryNextStep(0, 0, "r")
-	fmt.Println(numPaths * 2)
+	for i := 0; i <= 20; i++ {
+		numRows++
+		numCols++
+		numPaths = 0
+		start := time.Now()
+		tryNextStep(0, 0)
+		elapsed := time.Since(start)
+		fmt.Printf("%d x %d: %d, %v\n", numRows, numCols, numPaths, elapsed)
+	}
 }
