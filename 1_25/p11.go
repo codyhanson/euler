@@ -44,25 +44,71 @@ func max(nums ...int) int {
 			max = num
 		}
 	}
-
 	return max
 }
 
-func hProduct(grid *[][]int, row, col int) int {
+func hProduct(grid [][]int, row, col int) int {
+	if col+3 < len(grid[row]) {
+		return grid[row][col] * grid[row][col+1] * grid[row][col+2] * grid[row][col+3]
+	}
 	return 0
 }
 
-func vProduct(grid *[][]int, row, col int) int {
+func vProduct(grid [][]int, row, col int) int {
+	if row+3 < len(grid) {
+		return grid[row][col] * grid[row+1][col] * grid[row+2][col] * grid[row+3][col]
+	}
 	return 0
 }
 
-func dProduct(grid *[][]int, row, col int) int {
-	return 0
+func dRightProduct(grid [][]int, row, col int) int {
+	product := 1
+	for i := 0; i < 4; i++ {
+		rowOb := false
+		colOb := false
+		if col > row {
+			colOb = col+i >= len(grid[row])
+			rowOb = row+i >= len(grid)
+		} else {
+			rowOb = row+i >= len(grid)
+			if !rowOb {
+				colOb = col+i >= len(grid[row])
+			}
+		}
+		if rowOb || colOb {
+			return 0
+		}
+		product *= grid[row+i][col+i]
+	}
+	return product
+}
+
+func dLeftProduct(grid [][]int, row, col int) int {
+	product := 1
+	for i := 0; i < 4; i++ {
+		rowOb := false
+		colOb := false
+		if col < row {
+			colOb = col-i < 0
+			rowOb = row+i >= len(grid)
+		} else {
+			rowOb = row+i >= len(grid)
+			if !rowOb {
+				colOb = col-i < 0
+			}
+		}
+		if rowOb || colOb {
+			return 0
+		}
+		product *= grid[row+i][col-i]
+	}
+	return product
 }
 
 func main() {
 
-	rawGrid := strings.Split("08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08 "+
+	rawGrid := strings.Split(""+
+		"08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08 "+
 		"49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00 "+
 		"81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65 "+
 		"52 70 95 23 04 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91 "+
@@ -83,26 +129,31 @@ func main() {
 		"20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54 "+
 		"01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48", " ")
 
-	grid := [20][20]int{}
+	grid := make([][]int, 20)
 
 	for r := 0; r < 20; r++ {
 		for c := 0; c < 20; c++ {
 			index := (19 * r) + (c + r)
-			grid[r][c], _ = strconv.Atoi(rawGrid[index])
+			elem, _ := strconv.Atoi(rawGrid[index])
+			grid[r] = append(grid[r], elem)
 		}
 	}
+
+	fmt.Println(grid)
 
 	//we now have 2 dimensional array of ints to represent the grid
 	largestProduct := 0
 
-	//For each item in the grid, check the horizontal, diagonal, and vert quadruplet for product.
+	//For each item in the grid, check the horizontal, diagonal down to the left and right,
+	// and vert quadruplet for product.
 	for r := 0; r < 20; r++ {
 		for c := 0; c < 20; c++ {
 			h := hProduct(grid, r, c)
 			v := vProduct(grid, r, c)
-			d := dProduct(grid, r, c)
-
-			largestProduct = max(h, v, d, largestProduct)
+			dr := dRightProduct(grid, r, c)
+			dl := dLeftProduct(grid, r, c)
+			fmt.Printf("row: %d, col: %d, h:%d, v:%d, d:%d\n", r, c, h, v, dr)
+			largestProduct = max(h, v, dr, dl, largestProduct)
 		}
 	}
 
