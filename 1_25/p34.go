@@ -9,26 +9,42 @@ Note: as 1! = 1 and 2! = 2 are not sums they are not included.
 */
 import (
 	"fmt"
-	"math/big"
+	"strconv"
+	"strings"
 )
 
-func factorial(n int64) *big.Int {
-	f := big.NewInt(n)
-	for i := n - 1; i > 0; i-- {
-		bigI := big.NewInt(i)
-		f.Mul(bigI, f)
+func factorial(n int) int {
+	f := 1
+	for i := 1; i <= n; i++ {
+		f *= i
 	}
 	return f
 }
 
-func sumOfDigits(i int) {
+func sumOfDigits(i int) int {
+	sum := 0
 
+	return sum
 }
 
 func main() {
 
+	runningTotal := 0
+	n := 3
 	for {
+		factorialSum := 0
+		nStr := strconv.Itoa(n)
+		digits := strings.Split(nStr, "")
+		for _, val := range digits {
+			digit, _ := strconv.Atoi(val)
+			factorialSum += factorial(digit)
+		}
 
+		if n == factorialSum {
+			runningTotal += n
+			fmt.Printf("%d: %d\n", n, runningTotal)
+		}
+		n++
 	}
 
 }
