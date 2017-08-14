@@ -11,10 +11,12 @@ If all the numbers from 1 to 1000 (one thousand) inclusive were written out in w
 NOTE: Do not count spaces or hyphens. For example, 342 (three hundred and forty-two) contains 23 letters and 115 (one hundred and fifteen) contains 20 letters. The use of "and" when writing out numbers is in compliance with British usage.
 */
 import (
+	"bytes"
 	"fmt"
 )
 
 var ones = map[int]string{
+	0: "",
 	1: "one",
 	2: "two",
 	3: "three",
@@ -27,6 +29,7 @@ var ones = map[int]string{
 }
 
 var teens = map[int]string{
+	0:  "",
 	11: "eleven",
 	12: "twelve",
 	13: "thirteen",
@@ -39,6 +42,7 @@ var teens = map[int]string{
 }
 
 var tens = map[int]string{
+	0:  "",
 	10: "ten",
 	20: "twenty",
 	30: "thirty",
@@ -50,10 +54,10 @@ var tens = map[int]string{
 	90: "ninety",
 }
 
-oneThousand := "onethousand"
-and := "and"
+var oneThousand = "onethousand"
+var and = "and"
 
-func splitIntoSpeakables(i int) (hundreds, tens, ones int) {
+func splitIntoSpeakables(i int) (hundreds, tens, teens, ones int) {
 	if i < 10 {
 		return i
 	} else if i < 100 {
@@ -65,7 +69,23 @@ func splitIntoSpeakables(i int) (hundreds, tens, ones int) {
 }
 
 func speaknspell(i int) string {
-	return "abc"
+	thousands, hundreds, tens, teens, ones := splitIntoSpeakables(i)
+	if thousands {
+		return oneThousand
+	}
+	var buffer bytes.Buffer
+
+	if hundreds != "" {
+		buffer.WriteString(hundreds)
+		if tens != "" || teens != "" || ones != "" {
+			buffer.WriteString(and)
+		}
+	}
+	if tens != "" {
+		buffer.WriteString(hundreds)
+	}
+
+	return buffer.String()
 }
 
 func main() {
