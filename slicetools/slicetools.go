@@ -6,7 +6,14 @@ import (
 	"strings"
 )
 
+
 func Reverse(s []string) {
+	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
+		s[i], s[j] = s[j], s[i]
+	}
+}
+
+func ReverseInt(s []int) {
 	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
 		s[i], s[j] = s[j], s[i]
 	}
@@ -16,6 +23,12 @@ func Rotate(slc []string, rot int) {
 	Reverse(slc[rot:])
 	Reverse(slc[:rot])
 	Reverse(slc)
+}
+
+func RotateInt(slc []int, rot int) {
+	ReverseInt(slc[rot:])
+	ReverseInt(slc[:rot])
+	ReverseInt(slc)
 }
 
 func SplitDigits(n int) []int {
