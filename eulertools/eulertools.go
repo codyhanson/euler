@@ -21,6 +21,15 @@ func GetNextPrime(i int) int {
 
 }
 
+func GetNextPrimeAfterPrime(prime int) int {
+	for {
+		prime += 2
+		if IsPrimeFaster(prime) {
+			return prime
+		}
+	}
+}
+
 func GetNextPrimeFaster(n int) int {
 	i := n
 	for {

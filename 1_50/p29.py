@@ -1,4 +1,4 @@
-
+# coding=utf-8
 """
 Distinct powers
 Problem 29 
@@ -20,4 +20,3 @@ for a in range(2, 101):
         terms[term] = True
 
 print(len(terms.keys()))
-        
